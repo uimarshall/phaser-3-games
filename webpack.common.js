@@ -13,13 +13,13 @@ module.exports = {
 }; */
 // ***************************************************
 // Common has entry, plugins and module
-
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const path = require('path');
 
 module.exports = {
 
-  // devtool: "none",
+  devtool: 'eval-source-map',
   entry: {
     main: './src/index.js',
     vendor: './src/vendor.js',
@@ -27,6 +27,9 @@ module.exports = {
 
   plugins: [new HtmlWebpackPlugin({
     template: './src/template.html',
+  }), new webpack.DefinePlugin({
+    CANVAS_RENDERER: JSON.stringify(true),
+    WEBGL_RENDERER: JSON.stringify(true),
   })],
   module: {
     rules: [
@@ -44,6 +47,18 @@ module.exports = {
             outputPath: 'images',
           },
         },
+
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: [/\.vert$/, /\.frag$/],
+        use: 'raw-loader',
       },
 
     ],
