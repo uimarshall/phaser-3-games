@@ -2,22 +2,22 @@ import './main.scss';
 import './app/app';
 import './app/alertService';
 import Phaser from 'phaser';
-import Scene1 from "./assets/scenes/Scene1";
-import Scene2 from "./assets/scenes/Scene2";
+import Scene1 from './scenes/Scene1';
+import Scene2 from './scenes/Scene2';
 import { render } from './app/componentService';
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width: 256,
+  height: 272,
   backgroundColor: 0x000000,
-//   physics: {
-//     default: 'arcade',
-//     arcade: {
-//       gravity: { y: 200 },
-//     },
-//   },
-/**
+  //   physics: {
+  //     default: 'arcade',
+  //     arcade: {
+  //       gravity: { y: 200 },
+  //     },
+  //   },
+  /**
 Phaser use Scenes to organise its content.
 Scenes are where the elements pf the game lives in.
 You can create as many scenes as possible dynamically in the same game.
@@ -28,14 +28,13 @@ The scenes are controlled by the ffg flow of functions:
 4. update() - Is a loop that runs constantly
 */
 
-//   scene: {
-//     preload,
-//     create,   
-//   },
- scene: [Scene1, Scene2]
-  
-   
-  
+  //   scene: {
+  //     preload,
+  //     create,
+  //   },
+  scene: [Scene1, Scene2],
+
+
 };
 
 const game = new Phaser.Game(config);
@@ -69,3 +68,4 @@ const game = new Phaser.Game(config);
 // }
 
 render();
+export default config;
