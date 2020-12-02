@@ -33,6 +33,14 @@ The scenes are controlled by the ffg flow of functions:
   //     create,
   //   },
   scene: [Scene1, Scene2],
+  pixelArt:true,
+  physics: {
+      default: 'arcade',
+      arcade: {
+        debug:false,
+        // gravity: { y: 200 },
+      },
+    },
 
 
 };
@@ -68,4 +76,4 @@ const game = new Phaser.Game(config);
 // }
 
 render();
-export default config;
+export  {config,game};

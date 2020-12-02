@@ -1,4 +1,5 @@
-import config from '../index';
+// import config from '../index';
+import {config,game}  from '../index';
 
 class Scene2 extends Phaser.Scene {
   // constructor fn helps Scene2 to inherit all d features of Phaser.Scene
@@ -55,7 +56,7 @@ class Scene2 extends Phaser.Scene {
  
    })
    this.anims.create({
-     key:"explode",//create animation named ship1_anim
+     key:"explode",//create animation named explode
      frames: this.anims.generateFrameNumbers("explosion"),//using the ship spritesheets frame
      frameRate:20,
      repeat:0,// 0 is for it to occur once.
@@ -63,6 +64,49 @@ class Scene2 extends Phaser.Scene {
      
  
    })
+   this.anims.create({
+     key:"red",//create animation named red
+     frames: this.anims.generateFrameNumbers("power-up", {
+       start:0,
+       end:1
+     }),
+     frameRate:20,
+     repeat:-1, 
+ 
+   })
+   this.anims.create({
+     key:"gray",//create animation named gray
+     frames: this.anims.generateFrameNumbers("power-up", {
+       start:2,
+       end:3
+     }),
+     frameRate:20,
+     repeat:-1, 
+ 
+   })
+
+this.powerUps = this.physics.add.group()
+// Create number of powerups you want
+let maxObjs =4
+for (let i = 0; i <= maxObjs; i++) {
+  let powerUp = this.physics.add.sprite(16,16,"power-up")
+  this.powerUps.add(powerUp)
+  powerUp.setRandomPosition(0,0,this.game.config.width,game.config.height)
+  if (Math.random() > 0.5) {
+    
+    powerUp.play("red")
+  }else{
+    powerUp.play("gray")
+  }
+  // set velocity of physics
+  powerUp.setVelocity(100,100)
+  powerUp.setCollideWorldBounds(true)//set boundry for the objs not to fall off.
+  // the boundries is the 'world'
+  // Set the objs to bounce instead of being static
+  powerUp.setBounce(1)
+}
+
+
    this.ship1.play("ship1_anim")
    this.ship2.play("ship2_anim")
    this.ship3.play("ship3_anim")
