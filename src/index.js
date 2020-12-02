@@ -6,6 +6,10 @@ import Scene1 from './scenes/Scene1';
 import Scene2 from './scenes/Scene2';
 import { render } from './app/componentService';
 
+const gameSettings = {
+  playerSpeed:200
+}
+
 const config = {
   type: Phaser.AUTO,
   width: 256,
@@ -76,4 +80,4 @@ const game = new Phaser.Game(config);
 // }
 
 render();
-export  {config,game};
+export  {config,game, gameSettings};

@@ -44,6 +44,10 @@ class Scene1 extends Phaser.Scene {
        frameWidth: 16,
        frameHeight:16
      });
+   this.load.spritesheet('player', 'src/assets/spritesheets/player.png',{
+       frameWidth: 16,
+       frameHeight:24
+     });
 // ==========================================================================
 
      
@@ -55,6 +59,72 @@ class Scene1 extends Phaser.Scene {
   create() {
     this.add.text(20, 20, 'Loading game...');
     this.scene.start('playGame');// "playgame" refers to Scene2
+
+    // ===========================================================================
+    /** CREATING ANIMATIONS 
+     *  this.anims.create({key, frames, frameRate, repeat})
+     * key - Is the id for the Animation
+     * frames - Is an array of frames
+     * frameRate - Is the speed of the Animation
+     * repeat - will it loop?
+    */
+   this.anims.create({
+     key:"ship1_anim",//create animation named ship1_anim
+     frames: this.anims.generateFrameNumbers("ship"),//using the spritesheets frame
+     frameRate:20,
+     repeat:-1// -1 is for infinite loop
+ 
+   })
+   this.anims.create({
+     key:"ship2_anim",//create animation named ship1_anim
+     frames: this.anims.generateFrameNumbers("ship2"),//using the ship spritesheets frame
+     frameRate:20,
+     repeat:-1// -1 is for infinite loop
+ 
+   })
+   this.anims.create({
+     key:"ship3_anim",//create animation named ship1_anim
+     frames: this.anims.generateFrameNumbers("ship3"),//using the spritesheets frame
+     frameRate:20,
+     repeat:-1// -1 is for infinite loop
+ 
+   })
+   this.anims.create({
+     key:"explode",//create animation named explode
+     frames: this.anims.generateFrameNumbers("explosion"),//using the ship spritesheets frame
+     frameRate:20,
+     repeat:0,// 0 is for it to occur once.
+     hideOnComplete:true//for the explosion animation to disappear once completed.
+     
+ 
+   })
+   this.anims.create({
+     key:"red",//create animation named red
+     frames: this.anims.generateFrameNumbers("power-up", {
+       start:0,
+       end:1
+     }),
+     frameRate:20,
+     repeat:-1, 
+ 
+   })
+   this.anims.create({
+     key:"gray",//create animation named gray
+     frames: this.anims.generateFrameNumbers("power-up", {
+       start:2,
+       end:3
+     }),
+     frameRate:20,
+     repeat:-1, 
+ 
+   })
+   this.anims.create({
+     key:"thrust",//create animation named thrust
+     frames: this.anims.generateFrameNumbers("player"),
+     frameRate:20,
+     repeat:-1, 
+ 
+   })
   }
 }
 

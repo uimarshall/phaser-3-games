@@ -1,5 +1,5 @@
 // import config from '../index';
-import {config,game}  from '../index';
+import {config,game,gameSettings}  from '../index';
 
 class Scene2 extends Phaser.Scene {
   // constructor fn helps Scene2 to inherit all d features of Phaser.Scene
@@ -26,64 +26,8 @@ class Scene2 extends Phaser.Scene {
      this.ship1.setScale(2)
     //  this.ship1.flipY = true
     //  this.ship1.angle += 3//rotate continously
-// ===========================================================================
-    /** CREATING ANIMATIONS 
-     *  this.anims.create({key, frames, frameRate, repeat})
-     * key - Is the id for the Animation
-     * frames - Is an array of frames
-     * frameRate - Is the speed of the Animation
-     * repeat - will it loop?
-    */
-   this.anims.create({
-     key:"ship1_anim",//create animation named ship1_anim
-     frames: this.anims.generateFrameNumbers("ship"),//using the spritesheets frame
-     frameRate:20,
-     repeat:-1// -1 is for infinite loop
- 
-   })
-   this.anims.create({
-     key:"ship2_anim",//create animation named ship1_anim
-     frames: this.anims.generateFrameNumbers("ship2"),//using the ship spritesheets frame
-     frameRate:20,
-     repeat:-1// -1 is for infinite loop
- 
-   })
-   this.anims.create({
-     key:"ship3_anim",//create animation named ship1_anim
-     frames: this.anims.generateFrameNumbers("ship3"),//using the spritesheets frame
-     frameRate:20,
-     repeat:-1// -1 is for infinite loop
- 
-   })
-   this.anims.create({
-     key:"explode",//create animation named explode
-     frames: this.anims.generateFrameNumbers("explosion"),//using the ship spritesheets frame
-     frameRate:20,
-     repeat:0,// 0 is for it to occur once.
-     hideOnComplete:true//for the explosion animation to disappear once completed.
-     
- 
-   })
-   this.anims.create({
-     key:"red",//create animation named red
-     frames: this.anims.generateFrameNumbers("power-up", {
-       start:0,
-       end:1
-     }),
-     frameRate:20,
-     repeat:-1, 
- 
-   })
-   this.anims.create({
-     key:"gray",//create animation named gray
-     frames: this.anims.generateFrameNumbers("power-up", {
-       start:2,
-       end:3
-     }),
-     frameRate:20,
-     repeat:-1, 
- 
-   })
+
+// ******************************PHYSICS**********************
 
 this.powerUps = this.physics.add.group()
 // Create number of powerups you want
@@ -128,7 +72,15 @@ for (let i = 0; i <= maxObjs; i++) {
   */
   // this.background = this.add.tileSprite(0, 0,config.width, config.height, 'background');
   
-  
+  this.player = this.physics.add.sprite(config.width / 2 - 8, config.height - 64, 'player');
+  this.player.play("thrust")
+
+  // Get Inputs from the keyboard
+  this.cursorKeys = this.input.keyboard.createCursorKeys()
+  // Prevent ship from falling off the screen
+  this.player.setCollideWorldBounds(true)
+  // Add a key so that player can shoot
+  this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 }
 
   /** 2 params,the 'ship' obj to be move and the Y-velocity of the ship */
@@ -147,7 +99,32 @@ for (let i = 0; i <= maxObjs; i++) {
     this.moveShip(this.ship3, 3)
     // decrease the position of the texture of the bg
     this.background.tilePositionY -= 0.5
+    this.movePlayerManager()
+    if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+      console.log("Fire")
+      
+    }
 
+  }
+
+  movePlayerManager(){
+    // Player can move ship left and right
+    if (this.cursorKeys.left.isDown) {
+      this.player.setVelocityX(-gameSettings.playerSpeed)//adjust players speed to a -ve value
+      
+    }else if (this.cursorKeys.right.isDown) {
+
+      this.player.setVelocityX(gameSettings.playerSpeed)
+    }
+
+    // Player can move ship up and down
+    if (this.cursorKeys.up.isDown) {
+      this.player.setVelocityY(-gameSettings.playerSpeed)//adjust players speed to a -ve value
+      
+    }else if (this.cursorKeys.down.isDown) {
+
+      this.player.setVelocityY(gameSettings.playerSpeed)
+    }
   }
 
   /**
