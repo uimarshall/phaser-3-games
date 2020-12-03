@@ -1,11 +1,12 @@
-
+import Phaser from 'phaser';
 
 class Beam extends Phaser.GameObjects.Sprite {
   constructor(scene) {
     //   Get the positn of the player's ship using the scene's reference
     let x = scene.player.x
-    let y = scene.player.y-16
+    let y = scene.player.y - 16
    super(scene,x,y,"beam")
+   scene.projectiles.add(this)
    scene.add.existing(this) 
    this.play("beam_anim")
    scene.physics.world.enableBody(this)//enable spritesheet to have physics

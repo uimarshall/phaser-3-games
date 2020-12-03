@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 // import config from '../index';
 import Beam from '../app/Beam';
 import {config,game,gameSettings}  from '../index';
@@ -27,6 +28,11 @@ class Scene2 extends Phaser.Scene {
      this.ship1.setScale(2)
     //  this.ship1.flipY = true
     //  this.ship1.angle += 3//rotate continously
+    // Put all enemies ship into a grp and enable it for physics
+    this.enemies = this.physics.add.group()
+    this.enemies.add(this.ship1)
+    this.enemies.add(this.ship2)
+    this.enemies.add(this.ship3)
 
 // ******************************PHYSICS**********************
 
@@ -36,7 +42,7 @@ let maxObjs =4
 for (let i = 0; i <= maxObjs; i++) {
   let powerUp = this.physics.add.sprite(16,16,"power-up")
   this.powerUps.add(powerUp)
-  powerUp.setRandomPosition(0,0,this.game.config.width,game.config.height)
+  powerUp.setRandomPosition(0,0,this.game.config.width,this.game.config.height)
   if (Math.random() > 0.5) {
     
     powerUp.play("red")
@@ -84,6 +90,46 @@ for (let i = 0; i <= maxObjs; i++) {
   this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
   // Create group to the beam instances
   this.projectiles = this.add.group()
+
+  // Enabling collisions btw Objects
+//the fn accedpts d 2 params to collide, the 2 grps of objs in this case.
+  this.physics.add.collider(this.projectiles,this.powerUps,function (projectile,powerUp) {
+    projectile.destroy()//destroy projectile once there is a collision.
+    
+  })
+
+  // Player should pick up power-ups when he touches it.
+  // We use "overlap" fn instead of "collider"
+  // The "overlap" fn only calculates if 2 objs are touching
+  // The 1st 2 params are the objs we want to check if they collide
+  // The 3rd param is the call back functn
+  // The last 2 params are for the scope of the fn.
+  this.physics.add.overlap(this.player, this.powerUps, this.pickPowerUp, null, this)
+
+  // Collision btw player and enemies ship
+  this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this)
+
+  // Add overlap btw player's shoot and enemies ship, the projectiles are the shots.
+  this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this)
+}
+
+// The player destroys the power-ups once they collide
+// The colliding objs are the params
+pickPowerUp(player,powerUp){
+  powerUp.disableBody(true,true)//disable the physics of the body, set to true-makes it inactive and hide it frm the display list
+
+}
+
+hurtPlayer(player,enemy){
+  this.resetShipPosition(enemy)//reset positn of enemy ship
+  player.x = config.width/2-8//reset positn of the player ship
+  player.y = config.height - 64
+
+}
+
+hitEnemy(projectile,enemy){
+  projectile.destroy()//destroy the shot
+  this.resetShipPosition(enemy)
 }
 
   /** 2 params,the 'ship' obj to be move and the Y-velocity of the ship */

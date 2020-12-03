@@ -1,4 +1,4 @@
-
+import Phaser from 'phaser';
 class Scene1 extends Phaser.Scene {
   // constructor fn helps Scene1 to inherit all d features of Phaser.Scene
   constructor() {
