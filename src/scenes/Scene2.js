@@ -138,6 +138,23 @@ this.score = 0
 // The "SCORE" param is the text or label to display.
 // "24"- is the font size
    this.scoreLabel=this.add.bitmapText(10,5,'pixelFont', 'SCORE', 24)
+
+  //  Add 3 sound effect objects
+   this.beamSound =this.sound.add("audio_beam")
+   this.explosionSound =this.sound.add("audio_explosion")
+   this.pickupSound =this.sound.add("audio_pickup")
+   this.music = this.sound.add("music")
+
+   let musicConfig = {
+     mute: false,
+     volume:1,
+     rate:1,
+     detune: 0,
+     seek:0,
+     loop: false,
+     delay:0
+   }
+   this.music.play(musicConfig)
   }
 
   zeroPad(num, size){
@@ -153,6 +170,7 @@ this.score = 0
   // The colliding objs are the params
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);// disable the physics of the body, set to true-makes it inactive and hide it frm the display list
+  this.pickupSound.play()
   }
 
   hurtPlayer(player, enemy) {
@@ -211,7 +229,8 @@ this.score = 0
     this.score += 5
     let scoreFormated = this.zeroPad(this.score, 6)
 
-    this.scoreLabel.text = `SCORE ${scoreFormated}` 
+    this.scoreLabel.text = `SCORE ${scoreFormated}`
+    this.explosionSound.play() 
 
   }
 
@@ -250,6 +269,7 @@ this.score = 0
     // let beam = this.physics.add.sprite(this.player.x, this.player.y, "beam")
     // add gameObj to the scene
     const beam = new Beam(this);
+    this.beamSound.play()
   }
 
   movePlayerManager() {

@@ -55,6 +55,12 @@ class Scene1 extends Phaser.Scene {
      });
 // pixelFont is an id to identify this font-face
     this.load.bitmapFont('pixelFont', 'src/assets/font/font.png', 'src/assets/font/font.xml')
+
+    // Load audio
+    this.load.audio('audio_beam', ['src/assets/sounds/beam.ogg', 'src/assets/sounds/beam.mp3'])
+    this.load.audio('audio_explosion', ['src/assets/sounds/explosion.ogg', 'src/assets/sounds/explosion.mp3'])
+    this.load.audio('audio_pickup', ['src/assets/sounds/pickup.ogg', 'src/assets/sounds/pickup.mp3'])
+    this.load.audio('music', ['src/assets/sounds/sci-fi_platformer12.ogg', 'src/assets/sounds/sci-fi_platformer12.mp3'])
 // ==========================================================================
 
      
