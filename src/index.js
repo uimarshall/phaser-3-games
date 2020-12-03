@@ -7,8 +7,8 @@ import Scene2 from './scenes/Scene2';
 import { render } from './app/componentService';
 
 const gameSettings = {
-  playerSpeed:200
-}
+  playerSpeed: 200,
+};
 
 const config = {
   type: Phaser.AUTO,
@@ -37,14 +37,14 @@ The scenes are controlled by the ffg flow of functions:
   //     create,
   //   },
   scene: [Scene1, Scene2],
-  pixelArt:true,
+  pixelArt: true,
   physics: {
-      default: 'arcade',
-      arcade: {
-        debug:false,
-        // gravity: { y: 200 },
-      },
+    default: 'arcade',
+    arcade: {
+      debug: false,
+      // gravity: { y: 200 },
     },
+  },
 
 
 };
@@ -80,4 +80,4 @@ const game = new Phaser.Game(config);
 // }
 
 render();
-export  {config,game, gameSettings};
+export { config, game, gameSettings };

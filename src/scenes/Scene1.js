@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+
 class Scene1 extends Phaser.Scene {
   // constructor fn helps Scene1 to inherit all d features of Phaser.Scene
   constructor() {
@@ -52,6 +53,8 @@ class Scene1 extends Phaser.Scene {
        frameWidth: 16,
        frameHeight:16
      });
+// pixelFont is an id to identify this font-face
+    this.load.bitmapFont('pixelFont', 'src/assets/font/font.png', 'src/assets/font/font.xml')
 // ==========================================================================
 
      
@@ -136,7 +139,11 @@ class Scene1 extends Phaser.Scene {
      repeat:-1, 
  
    })
+
+  
   }
+
+  
 }
 
 
