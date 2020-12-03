@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 // import config from '../index';
 import Beam from '../app/Beam';
+import ExplosionNotification from '../app/ExplosionNotification';
 import { config, game, gameSettings } from '../index';
 
 class Scene2 extends Phaser.Scene {
@@ -155,12 +156,55 @@ this.score = 0
   }
 
   hurtPlayer(player, enemy) {
-    this.resetShipPosition(enemy);// reset positn of enemy ship
-    player.x = config.width / 2 - 8;// reset positn of the player ship
-    player.y = config.height - 64;
+    
+    this.resetShipPosition(enemy);// reset positn of enemy shipplayer
+
+    // prevent player from being destroyed
+    if (this.player.alpha < 1) {
+  return
+  
+}
+
+    // Add explosion to ship when it is destroyed
+    let explosion = new ExplosionNotification(this, player.x, player.y)
+    // player.x = config.width / 2 - 8;// reset positn of the player ship
+    // player.y = config.height - 64;
+    // Disable player ship and hide it after explode
+    player.disableBody(true, true)
+    // this.resetPlayer()
+    // Delay reappearance of the player shop after collision
+    this.time.addEvent({
+      delay:1000,
+      callback: this.resetPlayer,
+      callbackScope:this,
+      loop:false
+    })
+  }
+
+  resetPlayer(){
+    let x = config.width / 2 - 8;// reset positn of the player ship
+    let y = config.height - 64;
+    this.player.enableBody(true,x,y,true,true)
+
+    // Make player transparent
+    this.player.alpha = 0.5
+// Get the ship back to normal after making it transparent
+// Animate ship and set the time concurrently
+    let tween = this.tweens.add({
+      targets:this.player,//our ship is the target
+      y: config.height - 64,
+      ease:'Power1',
+      duration:1500,
+      repeat:0,
+      onComplete: function () { 
+        this.player.alpha = 1
+       },
+       callbackScope:this
+    })
   }
 
   hitEnemy(projectile, enemy) {
+    let explosion = new ExplosionNotification(this, enemy.x, enemy.y)//'this-refers to the scene'
     projectile.destroy();// destroy the shot
     this.resetShipPosition(enemy);
     // Each time we hit the enemy, we increase the score by 10
@@ -188,7 +232,12 @@ this.score = 0
     this.movePlayerManager();
     if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
       // console.log("Fire")
-      this.shootBeam();
+
+      // Solve the problem of disappearance of player ship after explosion
+      if (this.player.active) {
+         this.shootBeam();
+      }
+     
     }
     // iterate thru each element of the projectile group
     for (let i = 0; i < this.projectiles.getChildren().length; i++) {
