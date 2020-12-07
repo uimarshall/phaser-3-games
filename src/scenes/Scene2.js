@@ -234,7 +234,7 @@ this.score = 0
 
   }
 
-  /** 2 params,the 'ship' obj to be move and the Y-velocity of the ship */
+  /** 2 params,the 'ship' obj to be moved and the Y-velocity of the ship */
   moveShip(ship, speed) {
     ship.y += speed;
     if (ship.y > config.height) {

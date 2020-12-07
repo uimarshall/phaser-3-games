@@ -23,7 +23,7 @@ const config = {
   //   },
   /**
 Phaser use Scenes to organise its content.
-Scenes are where the elements pf the game lives in.
+Scenes are where the elements of the game lives in.
 You can create as many scenes as possible dynamically in the same game.
 The scenes are controlled by the ffg flow of functions:
 1. init() - used to prepare the data.
